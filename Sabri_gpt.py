@@ -95,7 +95,7 @@ if st.session_state.api_key:
     #        st.write(f"**System (Instructions):** {content}")
 
     # User input at the bottom with a "Send" button
-    user_input = st.text_input("You:", key="user_input")
+    user_input = st.text_area("You:", key="user_input", height=100)
     if st.button("Send"):
         if user_input:
             st.session_state.messages.append({"role": "user", "content": user_input})
