@@ -1,5 +1,6 @@
 import streamlit as st
 import openai
+import base64
 
 # Custom CSS for styling
 st.markdown("""
@@ -48,6 +49,10 @@ if 'instructions' not in st.session_state:
 def clear_chat():
     st.session_state.messages = [{"role": "system", "content": st.session_state.instructions}]
 
+# Function to encode image to base64
+def encode_image(image):
+    return base64.b64encode(image.read()).decode('utf-8')
+
 # Streamlit UI
 st.title("Chat with OpenAI")
 
@@ -68,10 +73,16 @@ if st.session_state.api_key:
     # Model selection in sidebar
     model = st.sidebar.selectbox("Choose a model", available_models)
 
+    # Token control in sidebar
+    max_tokens = st.sidebar.slider("Max tokens for response:", min_value=1, max_value=4096, value=4096)
+
+    # Image uploader in sidebar
+    uploaded_file = st.sidebar.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+
     # Clear chat history button in sidebar
     if st.sidebar.button("Clear History"):
         clear_chat()
-        
+
     for message in st.session_state.messages:
         role = message["role"]
         content = message["content"]
@@ -82,28 +93,35 @@ if st.session_state.api_key:
         else:
             st.markdown(f'<div class="system-message"><strong>System (Instructions):</strong> {content}</div>', unsafe_allow_html=True)
 
-
-    # Display message history
-    #for message in st.session_state.messages:
-    #    role = message["role"]
-    #    content = message["content"]
-    #    if role == "user":
-    #        st.write(f"**You:** {content}")
-    #    elif role == "assistant":
-    #        st.write(f"**model:** {content}")
-    #    else:
-    #        st.write(f"**System (Instructions):** {content}")
-
     # User input at the bottom with a "Send" button
     user_input = st.text_area("You:", key="user_input", height=100)
     if st.button("Send"):
-        if user_input:
+        if user_input or uploaded_file:
             st.session_state.messages.append({"role": "user", "content": user_input})
+            
+            # If there is an uploaded image, encode it to base64
+            if uploaded_file:
+                base64_image = encode_image(uploaded_file)
+                image_message = {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": user_input},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{base64_image}"
+                            }
+                        }
+                    ]
+                }
+                st.session_state.messages.append(image_message)
+
             try:
                 # Generate a response using OpenAI's API with error handling
                 response = openai.ChatCompletion.create(
                     model=model,
-                    messages=st.session_state.messages
+                    messages=st.session_state.messages,
+                    max_tokens=max_tokens
                 )
                 bot_reply = response['choices'][0]['message']['content']
                 st.session_state.messages.append({"role": "assistant", "content": bot_reply})
