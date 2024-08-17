@@ -34,7 +34,8 @@ st.markdown("""
 # Set up available models
 available_models = [
     "gpt-4o",
-    "gpt-3.5-turbo-0125"
+    "gpt-3.5-turbo-0125",
+    "asst_sK9jEcNrczzrlb3gnbtgjWCr"
 ]
 
 # Initialize session state variables
