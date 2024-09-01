@@ -32,10 +32,47 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Set up available models
-available_models = [
-    "gpt-4o",
-    "gpt-3.5-turbo-0125"
-]
+available_models = ['gpt-4o-2024-05-13',
+ 'gpt-4o-mini',
+ 'text-embedding-3-small',
+ 'gpt-4o',
+ 'dall-e-2',
+ 'gpt-4o-2024-08-06',
+ 'tts-1-hd-1106',
+ 'tts-1-1106',
+ 'tts-1-hd',
+ 'dall-e-3',
+ 'whisper-1',
+ 'gpt-4-0125-preview',
+ 'gpt-3.5-turbo',
+ 'gpt-4-turbo-preview',
+ 'babbage-002',
+ 'gpt-3.5-turbo-0125',
+ 'gpt-4-1106-preview',
+ 'text-embedding-3-large',
+ 'gpt-3.5-turbo-1106',
+ 'gpt-3.5-turbo-16k',
+ 'chatgpt-4o-latest',
+ 'gpt-4o-mini-2024-07-18',
+ 'gpt-3.5-turbo-instruct-0914',
+ 'gpt-4-0613',
+ 'gpt-3.5-turbo-instruct',
+ 'tts-1',
+ 'gpt-4-turbo-2024-04-09',
+ 'davinci-002',
+ 'gpt-4-turbo',
+ 'gpt-4',
+ 'text-embedding-ada-002']
+
+# Model selection in sidebar with a default model
+default_model = "gpt-4o"
+
+# Find the index of the default model
+if default_model in available_models:
+    default_index = available_models.index(default_model)
+else:
+    default_index = 0  # fallback to the first model if the default is not in the list
+
 
 # Initialize session state variables
 if 'messages' not in st.session_state:
