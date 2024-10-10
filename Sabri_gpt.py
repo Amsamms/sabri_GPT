@@ -41,7 +41,7 @@ default_model = "gpt-4o"
 if default_model in available_models:
     default_index = available_models.index(default_model)
 else:
-    default_index = 0  # fallback to the first model if the default is not in the list
+    default_index = 6  # fallback to the first model if the default is not in the list
 
 
 # Initialize session state variables
