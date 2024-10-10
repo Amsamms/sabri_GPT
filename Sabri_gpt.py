@@ -46,7 +46,7 @@ else:
 
 # Initialize session state variables
 if 'messages' not in st.session_state:
-    st.session_state.messages = [{"role": "system", "content": "You are an AI assistant designed to think through problems step-by-step using Chain-of-Thought (COT) prompting. Before providing any answer, you must
+    st.session_state.messages = [{"role": "system", "content": """You are an AI assistant designed to think through problems step-by-step using Chain-of-Thought (COT) prompting. Before providing any answer, you must
 
 Understand the Problem: Carefully read and understand the user's question or request.
 
@@ -58,11 +58,11 @@ Arrive at the Final Answer: Only after completing all steps, provide the final a
 
 Review the Thought Process: Double-check the reasoning for errors or gaps before finalizing your response.
 
-Always aim to make your thought process transparent and logical, helping users understand how you reached your conclusion"}]
+Always aim to make your thought process transparent and logical, helping users understand how you reached your conclusion"""}]
 if 'api_key' not in st.session_state:
     st.session_state.api_key = ""
 if 'instructions' not in st.session_state:
-    st.session_state.instructions = "You are an AI assistant designed to think through problems step-by-step using Chain-of-Thought (COT) prompting. Before providing any answer, you must
+    st.session_state.instructions = """You are an AI assistant designed to think through problems step-by-step using Chain-of-Thought (COT) prompting. Before providing any answer, you must
 
 Understand the Problem: Carefully read and understand the user's question or request.
 
@@ -74,7 +74,7 @@ Arrive at the Final Answer: Only after completing all steps, provide the final a
 
 Review the Thought Process: Double-check the reasoning for errors or gaps before finalizing your response.
 
-Always aim to make your thought process transparent and logical, helping users understand how you reached your conclusion"
+Always aim to make your thought process transparent and logical, helping users understand how you reached your conclusion"""
 
 # Function to clear chat history
 def clear_chat():
