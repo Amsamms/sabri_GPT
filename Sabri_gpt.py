@@ -31,19 +31,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Set up available models
-available_models = [model.id for model in openai.Model.list().data]
-
-# Model selection in sidebar with a default model
-default_model = "gpt-4o"
-
-# Find the index of the default model
-if default_model in available_models:
-    default_index = available_models.index(default_model)
-else:
-    default_index = 0  # fallback to the first model if the default is not in the list
-
-
 # Initialize session state variables
 if 'messages' not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": " You are a helpful assistant."}]
@@ -78,7 +65,21 @@ if st.session_state.api_key:
         clear_chat()
 
     # Model selection in sidebar
-    model = st.sidebar.selectbox("Choose a model", available_models)
+
+    
+    # Set up available models
+    available_models = [model.id for model in openai.Model.list().data]
+
+    # Model selection in sidebar with a default model
+    default_model = "gpt-4o"
+
+    # Find the index of the default model
+    if default_model in available_models:
+        default_index = available_models.index(default_model)
+    else:
+        default_index = 0  # fallback to the first model if the default is not in the list
+
+    model = st.sidebar.selectbox("Choose a model", available_models, default_index)
 
     # Token control in sidebar
     max_tokens = st.sidebar.slider("Max tokens for response:", min_value=1, max_value=4096, value=4096)
